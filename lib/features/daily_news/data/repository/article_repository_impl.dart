@@ -15,7 +15,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
   ArticleRepositoryImpl(this._newsApiService);
 
   @override
-  Future<DataState<List<ArticleEntity>>> getNewArticles() async {
+  Future<DataState<List<ArticleEntity>>> getNewsArticles() async {
     final httpResponse = await _newsApiService.getNewsArticles(
       apikey: newsApiApiKey,
       category: countryQuery,
