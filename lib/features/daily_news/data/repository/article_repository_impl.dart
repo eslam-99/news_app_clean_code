@@ -7,12 +7,15 @@ import '../../../../core/constants/constants.dart';
 import '../../../../core/resources/data_state.dart';
 import '../../domain/entities/article.dart';
 import '../../domain/repository/article_repository.dart';
+import '../data_source/local/app_database.dart';
 import '../data_source/remote/news_api_service.dart';
+import '../models/article.dart';
 
 class ArticleRepositoryImpl implements ArticleRepository {
   final NewsApiService _newsApiService;
+  final AppDatabase _appDatabase;
 
-  ArticleRepositoryImpl(this._newsApiService);
+  ArticleRepositoryImpl(this._newsApiService, this._appDatabase);
 
   @override
   Future<DataState<List<ArticleEntity>>> getNewsArticles() async {
@@ -40,4 +43,18 @@ class ArticleRepositoryImpl implements ArticleRepository {
     }
   }
 
+  @override
+  Future<void> saveArticle(ArticleEntity article) async {
+    await _appDatabase.articleDAO.deleteArticle(ArticleModel.fromEntity(article));
+  }
+
+  @override
+  Future<void> deleteArticle(ArticleEntity article) async {
+    await _appDatabase.articleDAO.deleteArticle(ArticleModel.fromEntity(article));
+  }
+
+  @override
+  Future<List<ArticleEntity>> getSavedArticles() async {
+    return await _appDatabase.articleDAO.getArticles();
+  }
 }

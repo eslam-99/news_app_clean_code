@@ -42,3 +42,4 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 /lib/features/daily_news/data/data_source/remote/news_api_service.g.dart
+/lib/features/daily_news/data/data_source/local/app_database.g.dart
