@@ -18,7 +18,7 @@ final sl = GetIt.instance;
 
 Future<void> initializeDependencies() async {
   // Local DB
-  final database = await $FloorAppDatabase.databaseBuilder('app_database.db').build();
+  final database = await $FloorAppDatabase.databaseBuilder('app_db.db').build();
   sl.registerSingleton<AppDatabase>(database);
 
   // Dio Client
@@ -36,6 +36,6 @@ Future<void> initializeDependencies() async {
 
   // Blocs
   sl.registerFactory<RemoteArticlesBloc>(() => RemoteArticlesBloc(sl()));
-  sl.registerFactory<LocalArticleBloc>(() => LocalArticleBloc(sl(),sl(),sl()));
+  sl.registerFactory<LocalArticlesBloc>(() => LocalArticlesBloc(sl(),sl(),sl()));
 
 }

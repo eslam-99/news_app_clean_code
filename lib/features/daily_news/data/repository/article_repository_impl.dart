@@ -46,7 +46,7 @@ class ArticleRepositoryImpl implements ArticleRepository {
 
   @override
   Future<void> saveArticle(ArticleEntity article) async {
-    await _appDatabase.articleDAO.deleteArticle(ArticleModel.fromEntity(article));
+    await _appDatabase.articleDAO.insertArticle(ArticleModel.fromEntity(article));
   }
 
   @override

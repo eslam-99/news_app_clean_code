@@ -13,16 +13,16 @@ part 'remote_article_state.dart';
 class RemoteArticlesBloc extends Bloc<RemoteArticlesEvent, RemoteArticlesState> {
   final GetArticleUseCase _getArticlesUseCase;
 
-  RemoteArticlesBloc(this._getArticlesUseCase) : super(RemoteArticleLoading()) {
+  RemoteArticlesBloc(this._getArticlesUseCase) : super(RemoteArticlesLoading()) {
     on<GetArticles>(onGetArticles);
   }
 
   void onGetArticles(GetArticles event, Emitter<RemoteArticlesState> emit) async {
     final dataState = await _getArticlesUseCase();
     if (dataState is DataSuccess && dataState.data!.articles!.isNotEmpty) {
-      emit(RemoteArticleDone(dataState.data!.articles!));
+      emit(RemoteArticlesDone(dataState.data!.articles!));
     } else {
-      emit(RemoteArticleError(dataState.error!));
+      emit(RemoteArticlesError(dataState.error!));
     }
   }
 }
