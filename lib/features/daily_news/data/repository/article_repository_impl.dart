@@ -6,6 +6,7 @@ import 'package:retrofit/retrofit.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/resources/data_state.dart';
 import '../../domain/entities/article.dart';
+import '../../domain/entities/articles.dart';
 import '../../domain/repository/article_repository.dart';
 import '../data_source/local/app_database.dart';
 import '../data_source/remote/news_api_service.dart';
@@ -18,11 +19,11 @@ class ArticleRepositoryImpl implements ArticleRepository {
   ArticleRepositoryImpl(this._newsApiService, this._appDatabase);
 
   @override
-  Future<DataState<List<ArticleEntity>>> getNewsArticles() async {
+  Future<DataState<ArticlesEntity>> getNewsArticles() async {
     final httpResponse = await _newsApiService.getNewsArticles(
       apikey: newsApiApiKey,
-      category: countryQuery,
-      country: categoryQuery,
+      country: countryQuery,
+      category: categoryQuery,
     );
 
     try {
