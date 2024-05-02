@@ -26,7 +26,6 @@ class ArticleModel extends ArticleEntity {
 
   factory ArticleModel.fromJson(Map<String,dynamic> map) {
     return ArticleModel(
-      id: map['id'] ?? DateTime.now().microsecondsSinceEpoch % 100000,
       author: map['author'] ?? '',
       title: map['title'] ?? '',
       description: map['description'] ?? '',
@@ -39,6 +38,7 @@ class ArticleModel extends ArticleEntity {
 
   factory ArticleModel.fromEntity(ArticleEntity article) {
     return ArticleModel(
+      id: article.id,
       author: article.author,
       title: article.title,
       description: article.description,
