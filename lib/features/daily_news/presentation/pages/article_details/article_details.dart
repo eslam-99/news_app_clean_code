@@ -26,23 +26,34 @@ class ArticleDetailsView extends HookWidget {
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       leading: Builder(
-        builder: (context) => GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onTap: () => _onBackButtonTapped(context),
-          child: const Icon(Ionicons.chevron_back, color: Colors.black),
-        ),
+        builder: (context) =>
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: () => _onBackButtonTapped(context),
+            child: const Icon(Ionicons.chevron_back, color: Colors.black),
+          ),
       ),
     );
   }
 
   Widget _buildBody() {
-    return SingleChildScrollView(
-      child: Column(
-        children: [
-          _buildArticleTitleAndDate(),
-          _buildArticleImage(),
-          _buildArticleDescription(),
-        ],
+    return BlocListener<LocalArticlesBloc, LocalArticlesState>(
+      listener: (context, state) {
+        if (state is LocalArticlesDone) {
+          _onSaveArticleDone(context);
+        }
+        if (state is LocalArticlesError) {
+          _onSaveArticleError(context);
+        }
+      },
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildArticleTitleAndDate(),
+            _buildArticleImage(),
+            _buildArticleDescription(),
+          ],
+        ),
       ),
     );
   }
@@ -100,10 +111,11 @@ class ArticleDetailsView extends HookWidget {
 
   Widget _buildFloatingActionButton() {
     return Builder(
-      builder: (context) => FloatingActionButton(
-        onPressed: () => _onFloatingActionButtonPressed(context),
-        child: const Icon(Ionicons.bookmark, color: Colors.white),
-      ),
+      builder: (context) =>
+          FloatingActionButton(
+            onPressed: () => _onFloatingActionButtonPressed(context),
+            child: const Icon(Ionicons.bookmark, color: Colors.white),
+          ),
     );
   }
 
@@ -113,10 +125,22 @@ class ArticleDetailsView extends HookWidget {
 
   void _onFloatingActionButtonPressed(BuildContext context) {
     BlocProvider.of<LocalArticlesBloc>(context).add(SaveArticle(article!));
+  }
+
+  void _onSaveArticleDone(BuildContext context) {
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         backgroundColor: Colors.black,
         content: Text('Article saved successfully.'),
+      ),
+    );
+  }
+
+  void _onSaveArticleError(BuildContext context) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        backgroundColor: Colors.red,
+        content: Text('Article not saved.'),
       ),
     );
   }

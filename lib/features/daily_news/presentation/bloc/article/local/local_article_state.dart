@@ -14,3 +14,5 @@ final class LocalArticlesLoading extends LocalArticlesState {}
 final class LocalArticlesDone extends LocalArticlesState {
   const LocalArticlesDone(List<ArticleEntity> articles) : super(articles: articles);
 }
+
+final class LocalArticlesError extends LocalArticlesState {}
